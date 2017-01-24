@@ -1,0 +1,24 @@
+﻿@model IEnumerable<Library.Models.Book>
+
+@{
+    ViewBag.Title = "Books";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Books</h2>
+
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Book</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var book in Model)
+        {
+            <tr>
+                <td>@book.Name</td>
+            </tr>
+        }
+    </tbody>
+</table>

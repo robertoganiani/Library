@@ -10,6 +10,22 @@ namespace Library.Controllers
 {
     public class BooksController : Controller
     {
+        public ActionResult Index()
+        {
+            var books = GetBooks();
+
+            return View(books);
+        }
+
+        private IEnumerable<Book> GetBooks()
+        {
+            return new List<Book>
+            {
+                new Book { Id = 1, Name = "Pride and Prejudice " },
+                new Book { Id = 2, Name = "The Book Thief" }
+            };
+        }
+
         // GET: Books/Random
         public ActionResult Random()
         {
