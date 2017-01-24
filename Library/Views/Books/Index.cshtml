@@ -7,18 +7,27 @@
 
 <h2>Books</h2>
 
-<table class="table table-bordered table-hover">
-    <thead>
-        <tr>
-            <th>Book</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var book in Model)
-        {
+@if (!Model.Any())
+{
+    <p>We don't have any books yet.</p>
+}
+else
+{
+    <table class="table table-bordered table-hover">
+        <thead>
             <tr>
-                <td>@book.Name</td>
+                <th>Book</th>
+                <th>Genre</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var book in Model)
+            {
+                <tr>
+                    <td>@Html.ActionLink(book.Name, "Details", "Books", new { id = book.Id }, null)</td>
+                    <td>@book.Genre.Name</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
