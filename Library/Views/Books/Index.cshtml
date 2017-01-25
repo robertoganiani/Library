@@ -7,6 +7,10 @@
 
 <h2>Books</h2>
 
+<p>
+    @Html.ActionLink("New Book", "New", "Books", null, new { @class = "btn btn-default" })
+</p>
+
 @if (!Model.Any())
 {
     <p>We don't have any books yet.</p>
@@ -24,7 +28,7 @@ else
             @foreach (var book in Model)
             {
                 <tr>
-                    <td>@Html.ActionLink(book.Name, "Details", "Books", new { id = book.Id }, null)</td>
+                    <td>@Html.ActionLink(book.Name, "Edit", "Books", new { id = book.Id }, null)</td>
                     <td>@book.Genre.Name</td>
                 </tr>
             }
