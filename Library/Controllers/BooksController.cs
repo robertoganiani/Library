@@ -50,8 +50,19 @@ namespace Library.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Save(Book book)
         {
+            if (!ModelState.IsValid)
+            {
+                var viewModel = new BookFormViewModel(book)
+                {
+                    Genres = _context.Genres.ToList()
+                };
+
+                return View("BookForm", viewModel);
+            }
+
             if (book.Id == 0)
             {
                 book.DateAdded = DateTime.Now;
@@ -80,9 +91,8 @@ namespace Library.Controllers
                 return HttpNotFound();
             }
 
-            var viewModel = new BookFormViewModel
-            {
-                Book = book,
+            var viewModel = new BookFormViewModel(book)
+            {                
                 Genres = _context.Genres.ToList()
             };
 
