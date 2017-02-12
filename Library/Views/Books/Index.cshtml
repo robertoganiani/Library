@@ -5,11 +5,16 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Books</h2>
-
-<p>
-    @Html.ActionLink("New Book", "New", "Books", null, new { @class = "btn btn-default" })
-</p>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-sm-6 col-xs-6">
+            <h2>Books</h2>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-6" style="margin-top: 15px; padding-right: 30px">
+            <span class="pull-right">@Html.ActionLink("New Book", "New", "Books", null, new { @class = "btn btn-default" })</span>
+        </div>
+    </div>
+</div>
 
 @if (!Model.Any())
 {
@@ -22,6 +27,7 @@ else
             <tr>
                 <th>Book</th>
                 <th>Genre</th>
+                <th>Delete</th>
             </tr>
         </thead>
         <tbody>
@@ -30,6 +36,9 @@ else
                 <tr>
                     <td>@Html.ActionLink(book.Name, "Edit", "Books", new { id = book.Id }, null)</td>
                     <td>@book.Genre.Name</td>
+                    <td>
+                        <button class="btn btn-danger">Delete</button>
+                    </td>
                 </tr>
             }
         </tbody>
