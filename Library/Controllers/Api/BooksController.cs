@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Library.Dtos;
+using System.Data.Entity;
 using Library.Models;
 using System;
 using System.Linq;
@@ -24,7 +25,10 @@ namespace Library.Controllers.Api
         // GET /api/books
         public IHttpActionResult GetBooks()
         {
-            var bookDtos = _context.Books.ToList().Select(Mapper.Map<Book, BookDto>);
+            var bookDtos = _context.Books
+                .Include(b => b.Genre)
+                .ToList()
+                .Select(Mapper.Map<Book, BookDto>);
             return Ok(bookDtos);
         }
 
