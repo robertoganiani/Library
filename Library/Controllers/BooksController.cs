@@ -21,11 +21,17 @@ namespace Library.Controllers
             _context.Dispose();
         }
 
-        public ActionResult Index()
+        public ViewResult Index()
         {
-            var books = _context.Books.Include(b => b.Genre).ToList();
+            if (User.IsInRole(RoleName.CanManageBooks))
+            {
+                return View("List");
+            }
+            else
+            {
+                return View("ReadOnlyList");
+            }
 
-            return View(books);
         }
 
         public ActionResult Details(int id)
@@ -38,7 +44,8 @@ namespace Library.Controllers
             return View(book);
         }
 
-        public ActionResult New()
+        [Authorize(Roles = RoleName.CanManageBooks)]
+        public ViewResult New()
         {
             var genres = _context.Genres.ToList();
             var viewModel = new BookFormViewModel
@@ -51,6 +58,7 @@ namespace Library.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = RoleName.CanManageBooks)]
         public ActionResult Save(Book book)
         {
             if (!ModelState.IsValid)
@@ -82,6 +90,7 @@ namespace Library.Controllers
             return RedirectToAction("Index", "Books");
         }
 
+        [Authorize(Roles = RoleName.CanManageBooks)]
         public ActionResult Edit(int id)
         {
             var book = _context.Books.SingleOrDefault(b => b.Id == id);
@@ -92,7 +101,7 @@ namespace Library.Controllers
             }
 
             var viewModel = new BookFormViewModel(book)
-            {                
+            {
                 Genres = _context.Genres.ToList()
             };
 

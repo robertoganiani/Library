@@ -65,6 +65,13 @@ namespace Library.Models
     public class RegisterViewModel
     {
         [Required]
+        public string Phone { get; set; }
+
+        [Required]
+        [Display(Name = "Driving License")]
+        public string DrivingLicinse { get; set; }
+
+        [Required]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
