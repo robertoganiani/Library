@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
 using Library.Dtos;
-using System.Data.Entity;
 using Library.Models;
 using System;
+using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web.Http;
 
@@ -23,13 +24,18 @@ namespace Library.Controllers.Api
         }
 
         // GET /api/books
-        public IHttpActionResult GetBooks()
+        public IEnumerable<BookDto> GetBooks(string query = null)
         {
-            var bookDtos = _context.Books
+            var booksQuery = _context.Books
                 .Include(b => b.Genre)
+                .Where(b => b.NumberAvailable > 0);
+
+            if (!String.IsNullOrWhiteSpace(query))
+                booksQuery = booksQuery.Where(b => b.Name.Contains(query));
+
+            return booksQuery
                 .ToList()
                 .Select(Mapper.Map<Book, BookDto>);
-            return Ok(bookDtos);
         }
 
         // GET /api/books/:id
